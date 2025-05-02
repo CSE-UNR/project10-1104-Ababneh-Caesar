@@ -97,7 +97,7 @@ int loadWord (char word [WORD_LENGTH]) {
 		lowerCaseify (word);
 		fclose(fp);
 		for (int end = 0; word [end] != '\0'; end++) {
-			if (end < WORD_LENGTH || word [WORD_LENGTH] != '\0') result++;
+			if (end < WORD_LENGTH - 1 || word [WORD_LENGTH - 1] != '\0') result++;
 		}
 	}
 	return result;
