@@ -1,3 +1,9 @@
+/*
+ * Author: Caesar Ababneh
+ * Date: 5/2/2025
+ * Purpose: This program plays a text-based Great Value version of Wordle against the user.
+ */
+
 #include <stdio.h>
 
 #define WORD_LENGTH 6
@@ -28,18 +34,17 @@ int main () {
 			bar();
 			for (int i = 0; i < MAX_GUESSES; i++) {
 				if (entries[i][0] > 0) {
-					compareWords(mystery_word, entries[i]);
 					trigger = match(mystery_word, entries[i]);
+					if (!trigger) compareWords(mystery_word, entries[i]);
 				}
 			}
 		}
 		if (trigger) {
-			bar();
 			upperCaseify(mystery_word);
 			printf("\t\t%s\n\t", mystery_word);
-			printf("You won in %d guess", guess + 1);
+			printf("You won in %d guess", guess);
 			if (guess > 0) printf("es");
-			printf("!\n%s\n", exclamation[guess]);
+			printf("!\n%s\n", exclamation[guess - 1]);
 		} else {
 			printf("You lost, better luck next time!\n");
 		}
