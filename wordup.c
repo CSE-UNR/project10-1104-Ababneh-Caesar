@@ -99,7 +99,6 @@ int loadWord (char word [WORD_LENGTH]) {
 		int end;
 		for (end = 0; word [end] != '\0'; end++);
 		if (end < WORD_LENGTH - 1 || word [WORD_LENGTH - 1] != '\0') result++;
-		}
 	}
 	return result;
 }
