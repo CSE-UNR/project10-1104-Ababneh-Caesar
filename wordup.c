@@ -11,7 +11,7 @@
 
 
 void input (int, char [MAX_GUESSES] [WORD_LENGTH]);
-void loadWord (char [WORD_LENGTH]);
+int loadWord (char [WORD_LENGTH]);
 void lowerCaseify (char [WORD_LENGTH]);
 void upperCaseify (char [WORD_LENGTH]);
 void compareWords(char [WORD_LENGTH], char [WORD_LENGTH]);
@@ -21,13 +21,13 @@ void bar();
 
 int main () {
 	const char exclamation [6][12] = {"\t\tGOATED!", "\t\tAmazing!", "\t\tNice!", "\t\tNice!", "\t\tNice!", "" };
-	char mystery_word [WORD_LENGTH];
+	char mystery_word [WORD_LENGTH] = "error";
 	char entries [MAX_GUESSES] [WORD_LENGTH] = {"\0","\0","\0","\0","\0","\0"};
 	/* This looks weird but it is necessary. */
 
-	loadWord(mystery_word);
-	if (!mystery_word) printf("The File couldn't be opened or something.");
-	else {
+	if (loadWord(mystery_word)) {
+		printf("The File couldn't be opened or it was broken or something.\n");
+	} else {
 		int trigger = 0, guess;
 		for (guess = 0; guess < MAX_GUESSES && !trigger; guess++) {
 			input (guess, entries);
@@ -88,12 +88,19 @@ void input (int guess_num, char list [MAX_GUESSES] [WORD_LENGTH]) {
 	list [guess_num] [WORD_LENGTH - 1] = '\0';
 }
 
-void loadWord (char word [WORD_LENGTH]) {
+int loadWord (char word [WORD_LENGTH]) {
+	int result = 0;
 	FILE* fp = fopen("word.txt", "r");
-	if (fp == NULL) word [0] = '\0';
-	else fgets (word, WORD_LENGTH, fp);
-	lowerCaseify (word);
-	fclose(fp);
+	if (fp == NULL) result++;
+	else {
+		fgets (word, WORD_LENGTH, fp);
+		lowerCaseify (word);
+		fclose(fp);
+		for (int end = 0; word [end] != '\0'; end++) {
+			if (end < WORD_LENGTH || word [WORD_LENGTH] != '\0') result++;
+		}
+	}
+	return result;
 }
 
 void lowerCaseify (char word [WORD_LENGTH]) {
